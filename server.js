@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Main Routes
-app.get("/api/v1", mainRoutes);
+app.use("/api/v1", mainRoutes);
 
 
 // set port, listen for requests
