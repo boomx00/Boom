@@ -20,13 +20,16 @@ class UserController {
             "email" : email,
             "password" : password
            }))
+           .then(function(){
+            res.json({
+              id:createUserMylist[0],
+              email,
+              password
+            })
+           })
   
            createUserMylist(email,password)
-      res.json({
-        id:createUserMylist[0],
-        email,
-        password
-      })
+      
       }else{
         res.json({
           STATUS: "USERNAME_USED"
@@ -83,7 +86,30 @@ class UserController {
 
   // Handle user edit profile
   async editUser(req, res, next) {
+    try{
+      let email = req.body.email
+      let user = await db('users').where('email',email)
+      const checkUser = (email)=> db.transaction(trx=>trx('users')
+      .where('email','=',email)
+      .update({
 
+      })
+      )
+      .then(function(){
+        req.status(201).send({
+          'MESSAGE':'USER_UPDATED'
+        })
+      })
+
+      if(user!=""){
+        checkUser(email)
+      }else{
+
+      }
+    }
+    catch(e){
+
+    }
   }
 }
 

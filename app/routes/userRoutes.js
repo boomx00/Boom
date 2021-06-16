@@ -6,5 +6,6 @@ app.post("/register-local", UserController.createUser);
 
 app.post("/login-local", UserController.userLogin);
 
+app.post("/edit-user", UserController.editUser);
 
 module.exports = app;
