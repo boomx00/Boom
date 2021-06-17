@@ -10,50 +10,22 @@ class UserController {
     try {
       //let email = req.body.email; Kalo mau ngeparse body kaya di bawah aja
       const { email, password, firstName, lastName, phoneNum } = req.body;
-      //var salt = bcryptjs.genSaltSync(10);
-      //let password = bcryptjs.hashSync(req.body.password, salt); Pake async function aja
-
-      //let checkUser = await db('users').where('email', email) "Kalo email udah unique bakalan catch "ER_DUP_ENTRY"
-      //  Transaction ada yang lebih simple
-      /*
-      if(checkUser==""){
-        const createUserMylist = (email,password) => db.transaction(trx => 
-          trx('users')
-           .insert({
-            "email" : email,
-            "password" : password
-           }))
-           .then(function(){
-            res.json({
-              id:createUserMylist[0],
-              email,
-              password
-            })
-           })
-  
-           createUserMylist(email,password)
-      
-      }else{
-        res.json({
-          STATUS: "USERNAME_USED"
-        })
-      }
-      */
+      const hash = await bcryptjs.hash(password, 10);
       await db.transaction(async (t) => {
         try {
           const id = await t('users').insert({
             email: email,
-            password: password
+            password: hash
           });
-          await t('user_profiles').insert({
-            user_id: id,
-            first_name: firstName,
-            last_name: lastName,
-            phone_number: phoneNum
-          });
-          t.commit();
+          // await t('user_profiles').insert({
+          //   user_id: id,
+          //   first_name: firstName,
+          //   last_name: lastName,
+          //   phone_number: phoneNum
+          // });
+          await t.commit();
         } catch (err) {
-          t.rollback();
+          await t.rollback();
           throw err;
         }
 
@@ -86,7 +58,7 @@ class UserController {
       let email = req.body.email;
       let password = req.body.password;
       let user = await db('users').where('email', email)
-
+      
 
       // if user exist
       if (user != "") {
@@ -118,7 +90,7 @@ class UserController {
 
     }
     catch (e) {
-
+      console.log(e)
     }
   }
 
@@ -126,7 +98,6 @@ class UserController {
   async editUser(req, res, next) {
     try {
       let email = req.body.email
-<<<<<<< HEAD
       let phone = req.body.phone
       let name = req.body.name
       let user = await db('users').where('email',email)
@@ -140,22 +111,8 @@ class UserController {
       .then(function(){
         res.status(201).send({
           'MESSAGE':'USER_UPDATED'
-=======
-      let user = await db('users').where('email', email)
-      const checkUser = (email) => db.transaction(trx => trx('users')
-        .where('email', '=', email)
-        .update({
-
-        })
-      )
-        .then(function () {
-          req.status(201).send({
-            'MESSAGE': 'USER_UPDATED'
-          })
->>>>>>> 5c1f70901d40ec31efdecc30918962e95770c672
         })
 
-<<<<<<< HEAD
       if(user!=""){
         checkUser(email,name,phone)
       }else{
@@ -163,19 +120,10 @@ class UserController {
           'MESSAGE':'USER_UPDATE_FAIL'
         })
       }
-    }
+    })
+  }
     catch(e){
       console.log(e)
-=======
-      if (user != "") {
-        checkUser(email)
-      } else {
-
-      }
-    }
-    catch (e) {
-
->>>>>>> 5c1f70901d40ec31efdecc30918962e95770c672
     }
   }
 }
