@@ -1,6 +1,7 @@
 const db = require('../db/db');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+
 require('dotenv').config()
 
 class UserController {
@@ -88,27 +89,32 @@ class UserController {
   async editUser(req, res, next) {
     try{
       let email = req.body.email
+      let phone = req.body.phone
+      let name = req.body.name
       let user = await db('users').where('email',email)
-      const checkUser = (email)=> db.transaction(trx=>trx('users')
+      const checkUser = (email,name,phone)=> db.transaction(trx=>trx('users')
       .where('email','=',email)
       .update({
-
+          name: name,
+          phone:phone
       })
       )
       .then(function(){
-        req.status(201).send({
+        res.status(201).send({
           'MESSAGE':'USER_UPDATED'
         })
       })
 
       if(user!=""){
-        checkUser(email)
+        checkUser(email,name,phone)
       }else{
-
+        res.status(400).sen({
+          'MESSAGE':'USER_UPDATE_FAIL'
+        })
       }
     }
     catch(e){
-
+      console.log(e)
     }
   }
 }

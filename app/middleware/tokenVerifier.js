@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const { User } = require('../models')
 
 const verifyToken = (token, next) => {
     try {
@@ -34,7 +33,7 @@ const tokenValidation = async (req, res, next) => {
                     "MESSAGE": "User token is expired please re-login."
                 })
             } else {
-                console.log(decodedToken.data.userId)
+                console.log(req)
                 res.locals.id = decodedToken.data.userId
                 next();
             }
