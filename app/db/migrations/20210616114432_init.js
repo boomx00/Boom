@@ -12,6 +12,7 @@ exports.up = function (knex) {
             table.foreign('user_id').references('id').inTable('users').onDelete("CASCADE");
             table.string('first_name')
             table.string('last_name')
+            table.integer('phone_number')
         })
         .createTable('restaurants', (table) => {
             table.increments('id');
