@@ -17,15 +17,16 @@ class UserController {
             email: email,
             password: hash
           });
-          // await t('user_profiles').insert({
-          //   user_id: id,
-          //   first_name: firstName,
-          //   last_name: lastName,
-          //   phone_number: phoneNum
-          // });
+          await t('user_profiles').insert({
+            user_id: id,
+            first_name: firstName,
+            last_name: lastName,
+            phone_number: phoneNum
+          });
           await t.commit();
         } catch (err) {
           await t.rollback();
+          console.log(err);
           throw err;
         }
 
@@ -100,27 +101,50 @@ class UserController {
       let email = req.body.email
       let phone = req.body.phone
       let name = req.body.name
-      let user = await db('users').where('email',email)
-      const checkUser = (email,name,phone)=> db.transaction(trx=>trx('users')
-      .where('email','=',email)
-      .update({
-          name: name,
-          phone:phone
-      })
-      )
-      .then(function(){
-        res.status(201).send({
-          'MESSAGE':'USER_UPDATED'
-        })
+      // let user = await db('users').where('email',email)
+      await db.transaction(async (t) => {
+        try {
+          const id = await t('users').where('email','=',email).update({
+            name:name,
+            phone:phone
+          })
+          // await t('user_profiles').insert({
+          //   user_id: id,
+          //   first_name: firstName,
+          //   last_name: lastName,
+          //   phone_number: phoneNum
+          // });
+          await t.commit();
+        } catch (err) {
+          await t.rollback();
+          throw err;
+        }
 
-      if(user!=""){
-        checkUser(email,name,phone)
-      }else{
-        res.status(400).sen({
-          'MESSAGE':'USER_UPDATE_FAIL'
-        })
-      }
-    })
+      })
+      res.status(201).send({
+        'status': 'REGISTER_SUCCESS',
+        'msg': 'Successfully register a new account.'
+      })
+    //   const checkUser = (email,name,phone)=> db.transaction(trx=>trx('users')
+    //   .where('email','=',email)
+    //   .update({
+    //       name: name,
+    //       phone:phone
+    //   })
+    //   )
+    //   .then(function(){
+    //     res.status(201).send({
+    //       'MESSAGE':'USER_UPDATED'
+    //     })
+
+    //   if(user!=""){
+    //     checkUser(email,name,phone)
+    //   }else{
+    //     res.status(400).sen({
+    //       'MESSAGE':'USER_UPDATE_FAIL'
+    //     })
+    //   }
+    // })
   }
     catch(e){
       console.log(e)
