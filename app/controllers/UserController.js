@@ -29,7 +29,6 @@ class UserController {
           console.log(err);
           throw err;
         }
-
       })
       res.status(201).send({
         'status': 'REGISTER_SUCCESS',
@@ -98,22 +97,17 @@ class UserController {
   // Handle user edit profile
   async editUser(req, res, next) {
     try {
-      let email = req.body.email
-      let phone = req.body.phone
-      let name = req.body.name
+    
+      const { id,email, firstName, lastName, phoneNum } = req.body;
+
       // let user = await db('users').where('email',email)
       await db.transaction(async (t) => {
         try {
-          const id = await t('users').where('email','=',email).update({
-            name:name,
-            phone:phone
+          const changeUser = await t('user_profiles').where('user_id','=',id).update({
+            first_name:firstName,
+            last_name:lastName,
+            phone_number:phoneNum
           })
-          // await t('user_profiles').insert({
-          //   user_id: id,
-          //   first_name: firstName,
-          //   last_name: lastName,
-          //   phone_number: phoneNum
-          // });
           await t.commit();
         } catch (err) {
           await t.rollback();
