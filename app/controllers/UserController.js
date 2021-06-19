@@ -119,26 +119,7 @@ class UserController {
         'status': 'REGISTER_SUCCESS',
         'msg': 'Successfully register a new account.'
       })
-    //   const checkUser = (email,name,phone)=> db.transaction(trx=>trx('users')
-    //   .where('email','=',email)
-    //   .update({
-    //       name: name,
-    //       phone:phone
-    //   })
-    //   )
-    //   .then(function(){
-    //     res.status(201).send({
-    //       'MESSAGE':'USER_UPDATED'
-    //     })
 
-    //   if(user!=""){
-    //     checkUser(email,name,phone)
-    //   }else{
-    //     res.status(400).sen({
-    //       'MESSAGE':'USER_UPDATE_FAIL'
-    //     })
-    //   }
-    // })
   }
     catch(e){
       console.log(e)
