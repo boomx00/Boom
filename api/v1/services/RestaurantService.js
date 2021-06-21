@@ -54,6 +54,20 @@ class RestaurantService {
 
         }
     }
+
+    async getAllRestaurant(){
+        try{
+            let data = ""
+            await db.transaction(async(t)=>{
+                const query = await t('restaurants');
+                data = query;
+            })
+            return data;
+
+        }catch(err){
+            throw(err)
+        }
+    }
 }
 
 module.exports = new RestaurantService();

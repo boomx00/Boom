@@ -6,5 +6,7 @@ const tokenVerifier = require('../middleware/tokenVerifier');
 app.post("/add-restaurant", restaurantController.addRestaurant);
 // manage restaurant requests
 app.put("/manage-restaurant",restaurantController.manageRestaurant);
+// get al restaurant
+app.get("/get-all-restaurants",restaurantController.getAllRestaurant);
 
 module.exports = app;
