@@ -19,25 +19,7 @@ class RestaurantController {
                     'msg': "Succesfully registered restaurant"
                 })
             }
-            // // Send register restaurant
-            // const {name,address,logo_url} = req.body
-            // await db.transaction(async(t)=>{
-            //     try{
-            //         const id = await t('restaurants').insert({
-            //             name:name,
-            //             address:address,
-            //             logo_url:logo_url,
-            //         });
-            //         await t.commit();
-            //     }catch(err){
-            //         await t.rollback();
-            //         throw(err);
-            //     }
-            // })
-            // res.status(201).send({
-            //     'status': 'REGISTER_RESTAURANT_SUCCESS',
-            //     'msg': "Succesfully registered restaurant"
-            // })
+           
         }catch(err){
                 res.status(500).send({
                   'status': 'REGISTER_FAILED',
@@ -45,6 +27,20 @@ class RestaurantController {
                   'err': err
                 })
     }
+    }
+
+    async editRestaurant(req,res,next){
+        try{
+            const result = await RestaurantService.editRestaurant(req.body);
+
+            res.status(201).send({
+                'status': 'RESTAURANT_UPDATED',
+                'msg': 'Restaurant details has been udpated'
+            })
+            console.log(result);
+        }catch(err){
+            console.log(err);
+        }
     }
 
     async manageRestaurant(req,res,next){
@@ -72,6 +68,20 @@ class RestaurantController {
                 'msg': 'Issue has occured in verifying.',
                 'err': err
               })
+        }
+    }
+
+    async getAllRestaurant(req,res,next){
+        try{
+            const result = await RestaurantService.getAllRestaurant();
+            res.status(201).send({
+                'msg':result
+            })
+        }catch(err){
+            res.status(500).send({
+                'status': 'GET_ERROR',
+                'msg': 'Issue has occured in getting all data.',
+            })
         }
     }
 }

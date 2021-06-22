@@ -7,6 +7,8 @@ app.post("/add-restaurant", restaurantController.addRestaurant);
 // manage restaurant requests
 app.put("/manage-restaurant",restaurantController.manageRestaurant);
 // get al restaurant
-app.get("/get-all-restaurants",restaurantController.getAllRestaurant);
+app.get("/get-all-restaurant",restaurantController.getAllRestaurant);
+// update restaurant details
+app.put("/update-restaurant", restaurantController.editRestaurant);
 
 module.exports = app;

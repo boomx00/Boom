@@ -23,6 +23,22 @@ class RestaurantService {
             throw(err)
     }
     }
+
+    async editRestaurant(restaurantData){
+        try{
+            const {id,name,address,logo_url} = restaurantData
+            await db.transaction(async(t)=>{
+                const restaurant = await t('restaurants').transacting(t).where('id','=',id).update({
+                    name: name,
+                    address:address,
+                    logo_url: logo_url
+                })
+            })
+            return "RESTAURANT_UPDATED"
+        }catch(err){
+            throw (err);
+        }
+    }
     
     async manageRestaurant(restaurantData){
         try{
