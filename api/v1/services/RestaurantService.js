@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 class RestaurantService {
+    // add restaurant
     async createRestaurant(restaurantData){
         try{
             // Send register restaurant
@@ -24,6 +25,7 @@ class RestaurantService {
     }
     }
 
+    // edit restaurant
     async editRestaurant(restaurantData){
         try{
             const {id,name,address,logo_url} = restaurantData
@@ -40,6 +42,7 @@ class RestaurantService {
         }
     }
     
+    // verify restaurant
     async manageRestaurant(restaurantData){
         try{
             const {id, action} = restaurantData;
@@ -71,6 +74,7 @@ class RestaurantService {
         }
     }
 
+    // get all restaurant
     async getAllRestaurant(){
         try{
             let data = ""
