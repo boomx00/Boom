@@ -15,7 +15,7 @@ class RestaurantService {
                     name:name,
                     address:address,
                     logo_url:logo_url,
-                    owner_id:owner
+                    owner_id: owner
                 });
 
             })
@@ -46,10 +46,10 @@ class RestaurantService {
     // verify restaurant
     async manageRestaurant(restaurantData){
         try{
-            const {id, user_id,action} = restaurantData;
+            const {restaurant_id, user_id,action} = restaurantData;
             if(action == "accepted"){
                 await db.transaction(async(t)=>{
-                    const query = await t('restaurants').transacting(t).where('id','=',id).update({
+                    const query = await t('restaurants').transacting(t).where('id','=',restaurant_id).update({
                         verified: 1,
                         status: "accepted"
                     })

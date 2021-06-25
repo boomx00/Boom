@@ -5,6 +5,7 @@ exports.up = function(knex) {
         table.integer('amount');
         table.boolean('usable');
         table.boolean('used');
+        table.boolean('reserved');
     })
 };
 
@@ -14,6 +15,7 @@ exports.down = function(knex) {
             table.dropColumn('amount');
             table.dropColumn('usable');
             table.dropColumn('used');
+            table.dropColumn('reserved');
         })
   
 };

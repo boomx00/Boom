@@ -81,11 +81,11 @@ class UserService {
 
     async editUser(userData) {
         try {
-            const { id, firstName, lastName, phoneNum } = userData;
+            const { user_id, firstName, lastName, phoneNum } = userData;
 
             // // let user = await db('users').where('email',email)
             await db.transaction(async (t) => {
-                const changeUser = await db('user_profiles').transacting(t).where('user_id', '=', id).update({
+                const changeUser = await db('user_profiles').transacting(t).where('user_id', '=', user_id).update({
                     first_name: firstName,
                     last_name: lastName,
                     phone_number: phoneNum

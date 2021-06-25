@@ -8,7 +8,7 @@ exports.up = function (knex) {
         })
         .createTable('user_roles', (table) => {
             table.integer('user_id').unsigned().references('id').inTable('users');
-            table.integer('type_id').unsigned().references('id').inTable('role_types');
+            table.integer('type_id').unsigned().references('id').inTable('role_types').defaultTo('1');
         })
         .then(() => {
             return knex('role_types').insert({

@@ -9,7 +9,8 @@ class RestaurantController {
 
     async addRestaurant(req,res,next){
         try{
-            const result = await RestaurantService.createRestaurant(req.body);
+            let data ={ ...req.body, owner: res.locals.id};
+            const result = await RestaurantService.createRestaurant(data);
            
             if(result=="RESTAURANT_CREATE_SUCCESSFULL"){
                 res.status(201).send({
@@ -19,6 +20,7 @@ class RestaurantController {
             }
            
         }catch(err){
+                console.log(err)
                 res.status(500).send({
                   'status': 'REGISTER_FAILED',
                   'msg': 'Failed to register restaurant.',

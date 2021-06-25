@@ -15,7 +15,12 @@ class ReservationController {
                 'message': 'You have created the reservation'
             })
         }catch(err){
-            console.log(err)
+            if(err.code=="ER_NO_REFERENCED_ROW_2"){
+                res.status(500).send({
+                    'status':'NO_RESTAURANT',
+                    'message':'Restaurant does not exist'
+                })
+            }
         }
     }
 
@@ -42,6 +47,7 @@ class ReservationController {
             }
         }catch(err){
             console.log(err)
+          
         }
     }
 
