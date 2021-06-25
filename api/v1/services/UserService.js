@@ -8,7 +8,7 @@ class UserService {
     async createUser(userData) {
         try {
             //let email = req.body.email; Kalo mau ngeparse body kaya di bawah aja
-            const { email, password, firstName, lastName, phoneNum } = userData;
+            const { email, password, firstName, lastName, phoneNum, type_id, restaurant_id} = userData;
             const hash = await bcryptjs.hash(password, 10);
             await db.transaction(async (t) => {
                 const id = await db('users').transacting(t).insert({
@@ -23,11 +23,18 @@ class UserService {
                 });
                 await db('user_roles').transacting(t).insert({
                     user_id: id,
-                    type_id: 0
+                    type_id: type_id
                 })
+                if(type_id=="2"){
+                    await db('restaurant_employee').transacting(t).insert({
+                        restaurant_id:restaurant_id,
+                        user_id:id
+                    })
+                }
             })
             return "USER_CREATE_SUCCESSFULL"
         } catch (err) {
+            console.log(err);
             throw err;
         }
     }
@@ -38,34 +45,45 @@ class UserService {
 
             // if user exist
             if (user[0] != null) {
-
-                bcryptjs.compare(password, user[0].password, (err, auth) => {
-                    if (auth == true) {
-                        const token = jwt.sign({
-                            data: {
-                                userId: user[0].id
+                const isSame = await bcryptjs.compare(password, user[0].password);
+                if(isSame){
+                    const token = jwt.sign({
+                                    data: {
+                                        userId: user[0].id
+                                    }
+                                }, process.env.JWT_PRIVATE_KEY, { expiresIn: '30d' });
+                                return token;
                             }
-                        }, process.env.JWT_PRIVATE_KEY, { expiresIn: '30d' });
-                        return token;
-                    } else {
-                        return "WRONG_PASSWORD";
-                    }
-                })
+                
+                // await bcryptjs.compare(password, user[0].password, (err, auth) => {
+                //     if (auth == true) {
+                //         const token = jwt.sign({
+                //             data: {
+                //                 userId: user[0].id
+                //             }
+                //         }, process.env.JWT_PRIVATE_KEY, { expiresIn: '30d' });
+                //         return token;
+                //     } else {
+                //         return "WRONG_PASSWORD";
+                //     }
+                // })
+
             } else {
                 return "USER_NOT_EXISTS";
             }
 
         }
         catch (e) {
+            console.log(e);
             throw e;
         }
     }
 
     async editUser(userData) {
         try {
-            const { id, email, firstName, lastName, phoneNum } = userData;
+            const { id, firstName, lastName, phoneNum } = userData;
 
-            // let user = await db('users').where('email',email)
+            // // let user = await db('users').where('email',email)
             await db.transaction(async (t) => {
                 const changeUser = await db('user_profiles').transacting(t).where('user_id', '=', id).update({
                     first_name: firstName,

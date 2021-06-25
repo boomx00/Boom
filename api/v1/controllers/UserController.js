@@ -11,7 +11,8 @@ class UserController {
   async createUser(req, res, next) {
     try {
       const result = await UserService.createUser(req.body);
-      if (result == "CREATE_USER_SUCCESSFULL") {
+      console.log(result);
+      if (result == "USER_CREATE_SUCCESSFULL") {
         res.status(201).send({
           'status': 'REGISTER_SUCCESS',
           'msg': 'Successfully register a new account.'
@@ -53,7 +54,7 @@ class UserController {
         res.status(201).send({
           'status': 'LOGIN_SUCCESS',
           'msg': 'Successfully login, token provided.',
-          'token': 'barrier' + result
+          'token': 'barrier ' + result 
         })
       }
     } catch (err) {
@@ -77,6 +78,7 @@ class UserController {
       }
     }
     catch (e) {
+      console.log(e)
       res.status(500).send({
         'status': 'EDIT_FAILED',
         'msg': 'Edit failed, server error.',

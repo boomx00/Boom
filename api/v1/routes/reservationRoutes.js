@@ -3,8 +3,8 @@ const reservationController = require('../controllers/ReservationController');
 const tokenVerifier = require('../middleware/tokenVerifier');
 
 // create reservation
-app.post('/create-reservation', reservationController.createReservation);
+app.post('/create-reservation',tokenVerifier, reservationController.createReservation);
 // manage reservation
-app.put('/manage-reservation',reservationController.manageReservation);
+app.put('/manage-reservation',tokenVerifier,reservationController.manageReservation);
 
 module.exports = app

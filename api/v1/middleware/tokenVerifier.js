@@ -33,8 +33,7 @@ const tokenValidation = async (req, res, next) => {
                     "MESSAGE": "User token is expired please re-login."
                 })
             } else {
-                console.log(req)
-                res.locals.id = decodedToken.data.userId
+                res.locals.id = decodedToken.data.userId;
                 next();
             }
 

@@ -2,7 +2,7 @@ const compression = require('compression');
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const mainRoutes = require('./app/routes/index')
+const mainRoutes = require('./api/v1/routes/index')
 
 app.use(compression());
 app.use(express.json());

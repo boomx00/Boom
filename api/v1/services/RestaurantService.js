@@ -9,12 +9,13 @@ class RestaurantService {
     async createRestaurant(restaurantData){
         try{
             // Send register restaurant
-            const {name,address,logo_url} = restaurantData
+            const {name,address,logo_url,owner} = restaurantData
             await db.transaction(async (t) => {
                 const id = await db('restaurants').transacting(t).insert({
                     name:name,
                     address:address,
                     logo_url:logo_url,
+                    owner_id:owner
                 });
 
             })
@@ -28,9 +29,9 @@ class RestaurantService {
     // edit restaurant
     async editRestaurant(restaurantData){
         try{
-            const {id,name,address,logo_url} = restaurantData
+            const {restaurant_id,name,address,logo_url} = restaurantData
             await db.transaction(async(t)=>{
-                const restaurant = await t('restaurants').transacting(t).where('id','=',id).update({
+                const restaurant = await t('restaurants').transacting(t).where('id','=',restaurant_id).update({
                     name: name,
                     address:address,
                     logo_url: logo_url
@@ -45,14 +46,17 @@ class RestaurantService {
     // verify restaurant
     async manageRestaurant(restaurantData){
         try{
-            const {id, action} = restaurantData;
+            const {id, user_id,action} = restaurantData;
             if(action == "accepted"){
                 await db.transaction(async(t)=>{
                     const query = await t('restaurants').transacting(t).where('id','=',id).update({
                         verified: 1,
                         status: "accepted"
                     })
-                        
+                    
+                    const updateUser = await t('user_roles').transacting(t).where('user_id','=',user_id).update({
+                        type_id : 3
+                    })
                     })
 
                 return "RESTAURANT_ACCEPTED"
@@ -88,6 +92,8 @@ class RestaurantService {
             throw(err)
         }
     }
+
+   
 }
 
 module.exports = new RestaurantService();

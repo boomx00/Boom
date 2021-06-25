@@ -10,9 +10,7 @@ class RestaurantController {
     async addRestaurant(req,res,next){
         try{
             const result = await RestaurantService.createRestaurant(req.body);
-            res.json({
-                'msg':result
-            })
+           
             if(result=="RESTAURANT_CREATE_SUCCESSFULL"){
                 res.status(201).send({
                     'status': 'REGISTER_RESTAURANT_SUCCESS',
@@ -24,7 +22,6 @@ class RestaurantController {
                 res.status(500).send({
                   'status': 'REGISTER_FAILED',
                   'msg': 'Failed to register restaurant.',
-                  'err': err
                 })
     }
     }
@@ -84,6 +81,7 @@ class RestaurantController {
             })
         }
     }
+  
 }
 
 module.exports = new RestaurantController();
