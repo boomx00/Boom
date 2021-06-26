@@ -11,5 +11,5 @@ app.put('/update-table',tokenVerifier,ownerVerifier,tableController.updateTable)
 // update table status
 app.put('/manage-table',tableController.manageTable)
 // delete table
-app.delete('/delete-table',tableController.deleteTable)
+app.delete('/delete-table',tokenVerifier,ownerVerifier,tableController.deleteTable)
 module.exports = app;

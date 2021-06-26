@@ -7,5 +7,6 @@ const userVerifier = require('../middleware/userVerifier');
 app.post('/create-reservation',tokenVerifier, userVerifier, reservationController.createReservation);
 // manage reservation
 app.put('/manage-reservation',tokenVerifier,reservationController.manageReservation);
-
+// cancel reservation
+app.put('/cancel-reservation',reservationController.cancelReservation);
 module.exports = app

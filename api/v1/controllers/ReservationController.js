@@ -51,6 +51,18 @@ class ReservationController {
         }
     }
 
+    async cancelReservation(req,res,next){
+        try{
+            const result = await ReservationService.cancelReservation(req.body);
+            res.status(201).send({
+                'status':'RESERVATION_CANCELLED',
+                'message':'Reservation has been cancelled'
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     
 }
 module.exports = new ReservationController();
