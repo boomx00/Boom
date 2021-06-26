@@ -8,5 +8,5 @@ app.post('/create-reservation',tokenVerifier, userVerifier, reservationControlle
 // manage reservation
 app.put('/manage-reservation',tokenVerifier,reservationController.manageReservation);
 // cancel reservation
-app.put('/cancel-reservation',reservationController.cancelReservation);
+app.put('/cancel-reservation',tokenVerifier,reservationController.cancelReservation);
 module.exports = app

@@ -53,11 +53,18 @@ class ReservationController {
 
     async cancelReservation(req,res,next){
         try{
+            if(res.locals.id==req.body.id){
             const result = await ReservationService.cancelReservation(req.body);
             res.status(201).send({
                 'status':'RESERVATION_CANCELLED',
                 'message':'Reservation has been cancelled'
             })
+        }else{
+            res.status(500).send({
+                'status':'UNAUTHORIZED_ACTION',
+                'message':'Unable to change other data'
+            })
+        }
         }catch(err){
             console.log(err)
         }
