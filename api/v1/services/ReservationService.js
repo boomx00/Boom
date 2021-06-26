@@ -55,9 +55,9 @@ class ReservationService {
 
     async cancelReservation(reservationData){
         try{
-
-        }catch(err){
             
+        }catch(err){
+
         }
     }
 }

@@ -50,5 +50,16 @@ class TableService {
             throw (err);
         }
     }
+
+    async deleteTable(tableData){
+        try{const {table_number,restaurant_id} = tableData;
+        await db.transaction(async(t)=>{
+            await db('tables').transacting(t).where('restaurant_id','=',restaurant_id).andWhere('table_number','=',table_number).del();
+        })
+        return "DELETE_TABLE_SUCCESS";
+    }catch(err){
+        throw (err);
+    }
+    }
 }
 module.exports = new TableService();

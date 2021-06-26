@@ -10,4 +10,6 @@ app.post('/create-table',tokenVerifier,ownerVerifier,tableVerifier,tableControll
 app.put('/update-table',tokenVerifier,ownerVerifier,tableController.updateTable)
 // update table status
 app.put('/manage-table',tableController.manageTable)
+// delete table
+app.delete('/delete-table',tableController.deleteTable)
 module.exports = app;

@@ -31,5 +31,12 @@ class TableController {
             'status': result
         })
     }
+
+    async deleteTable(req,res,next){
+        const result = await tableService.deleteTable(req.body);
+        res.json({
+            'message':result
+        })
+    }
 }
 module.exports = new TableController();
