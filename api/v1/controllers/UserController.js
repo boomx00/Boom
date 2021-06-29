@@ -10,8 +10,13 @@ class UserController {
   //  Handle local register
   async createUser(req, res, next) {
     try {
+      if(res.locals.authorized){
+        req.body.authorized = res.locals.authorized
+      }
+      // console.log(req.body.authorized.id);
+      
       const result = await UserService.createUser(req.body);
-      console.log(result);
+      // console.log(result);
       if (result == "USER_CREATE_SUCCESSFULL") {
         res.status(201).send({
           'status': 'REGISTER_SUCCESS',

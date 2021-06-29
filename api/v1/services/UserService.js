@@ -7,8 +7,8 @@ require('dotenv').config()
 class UserService {
     async createUser(userData) {
         try {
-            //let email = req.body.email; Kalo mau ngeparse body kaya di bawah aja
-            const { email, password, firstName, lastName, phoneNum, type_id, restaurant_id} = userData;
+            // //let email = req.body.email; Kalo mau ngeparse body kaya di bawah aja
+            const { email, password, firstName, lastName, phoneNum, type_id, restaurant_id,role,authorized} = userData;
             const hash = await bcryptjs.hash(password, 10);
             await db.transaction(async (t) => {
                 const id = await db('users').transacting(t).insert({
@@ -25,11 +25,14 @@ class UserService {
                     user_id: id,
                     type_id: type_id
                 })
-                if(type_id=="2"){
+                if(authorized){
                     await db('restaurant_employee').transacting(t).insert({
                         restaurant_id:restaurant_id,
-                        user_id:id
+                        user_id:id,
+                        role: role
                     })
+
+
                 }
             })
             return "USER_CREATE_SUCCESSFULL"

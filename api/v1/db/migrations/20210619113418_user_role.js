@@ -33,8 +33,15 @@ exports.up = function (knex) {
         })
         .then(() => {
             return knex('role_types').insert({
-                id: 5,
+                id: 4,
                 name: 'Admin',
+                level: 4
+            })
+        })
+        .then(()=>{
+            return knex('role_types').insert({
+                id: 5,
+                name:'Restaurant Manager',
                 level: 5
             })
         })
