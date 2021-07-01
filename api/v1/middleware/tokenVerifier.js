@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-
+const db = require('../db/db')
 const verifyToken = (token, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY)
@@ -33,6 +33,11 @@ const tokenValidation = async (req, res, next) => {
                     "MESSAGE": "User token is expired please re-login."
                 })
             } else {
+                let role = "";
+                await db.transaction(async(t)=>{
+                    role = await db('user_roles').transacting(t).where('user_id','=',decodedToken.data.userId)
+                })
+                res.locals.level = role[0].type_id
                 res.locals.id = decodedToken.data.userId;
                 next();
             }

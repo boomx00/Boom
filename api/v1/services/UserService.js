@@ -21,18 +21,22 @@ class UserService {
                     last_name: lastName,
                     phone_number: phoneNum
                 });
-                await db('user_roles').transacting(t).insert({
-                    user_id: id,
-                    type_id: type_id
-                })
+                
                 if(authorized){
                     await db('restaurant_employee').transacting(t).insert({
                         restaurant_id:restaurant_id,
                         user_id:id,
                         role: role
                     })
-
-
+                    await db('user_roles').transacting(t).insert({
+                        user_id: id,
+                        type_id: 2
+                    })
+                }else{
+                    await db('user_roles').transacting(t).insert({
+                        user_id: id,
+                        type_id: 1
+                    })
                 }
             })
             return "USER_CREATE_SUCCESSFULL"

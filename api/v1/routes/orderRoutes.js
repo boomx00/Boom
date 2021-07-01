@@ -1,0 +1,12 @@
+const app = require('express').Router();
+const orderController = require('../controllers/OrderController');
+const tokenVerifier = require('../middleware/tokenVerifier');
+const employeeVerifier = require('../middleware/employeeVerifier');
+// get order
+app.get('/get-order',tokenVerifier,employeeVerifier, orderController.getOrder);
+// create order
+app.post('/create-order',tokenVerifier,employeeVerifier, orderController.createOrder);
+// edit order
+app.put('/edit-order',tokenVerifier,employeeVerifier, orderController.editOrder);
+
+module.exports = app;
