@@ -57,7 +57,7 @@ class ReservationService {
         try{
             const {reservation_id} = reservationData
             await db.transaction(async(t)=>{
-                await db.transacting(t).where('id','=',reservation_id).update({
+                await db('reservations').transacting(t).where('id','=',reservation_id).update({
                     status: "cancelled"
                 })
             })

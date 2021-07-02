@@ -103,6 +103,19 @@ class UserService {
             throw err;
         }
     }
+
+    async getUser(userData){
+        try{
+            const {user_id} = userData
+            let user = ""
+            await db.transaction(async(t)=>{
+                user = await db('user_profiles').transacting(t).where('user_id','=',user_id)
+            })
+            return user
+        }catch(err){
+            throw (err)
+        }
+    }
 }
 
 module.exports = new UserService();

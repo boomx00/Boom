@@ -47,6 +47,18 @@ class FoodController{
         }
     }
 
+    async getFood(req,res,next){
+        try{
+            const result = await foodService.getFood(req.body);
+            res.status(201).send({
+                'status':'FOOD_GET',
+                'message':result
+            })
+        }catch(err){
+            throw(err)
+        }
+    }
+
 
 }
 

@@ -87,8 +87,19 @@ class UserController {
       res.status(500).send({
         'status': 'EDIT_FAILED',
         'msg': 'Edit failed, server error.',
-        'err': e
       })
+    }
+  }
+
+  async getUser(req,res,next){
+    try{
+      const result = await UserService.getUser(req.body);
+      res.status(201).send({
+        'status':'USER_GET',
+        'message': result
+      })
+    }catch(err){
+      throw(err)
     }
   }
 }

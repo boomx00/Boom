@@ -31,7 +31,7 @@ class RestaurantService {
         try{
             const {restaurant_id,name,address,logo_url} = restaurantData
             await db.transaction(async(t)=>{
-                const restaurant = await t('restaurants').transacting(t).where('id','=',restaurant_id).update({
+                const restaurant = await db('restaurants').transacting(t).where('id','=',restaurant_id).update({
                     name: name,
                     address:address,
                     logo_url: logo_url
@@ -49,7 +49,7 @@ class RestaurantService {
             const {restaurant_id, user_id,action} = restaurantData;
             if(action == "accepted"){
                 await db.transaction(async(t)=>{
-                    const query = await t('restaurants').transacting(t).where('id','=',restaurant_id).update({
+                    const query = await db('restaurants').transacting(t).where('id','=',restaurant_id).update({
                         verified: 1,
                         status: "accepted"
                     })
@@ -64,7 +64,7 @@ class RestaurantService {
 
             if(action == "declined"){
                 await db.transaction(async(t)=>{
-                    const query= await t('restaurants').transacting(t).where('id','=',id).update({
+                    const query= await db('restaurants').transacting(t).where('id','=',id).update({
                         verified:0,
                         status: "declined"
                     })
@@ -83,7 +83,7 @@ class RestaurantService {
         try{
             let data = ""
             await db.transaction(async(t)=>{
-                const query = await t('restaurants');
+                const query = await db('restaurants');
                 data = query;
             })
             return data;

@@ -5,7 +5,7 @@ class FoodService{
         try{
             const {restaurant_id,name,description,img_url} = foodData;
             await db.transaction(async (t)=>{
-                await t('menus').transacting(t).insert({
+                await db('menus').transacting(t).insert({
                     restaurant_id:restaurant_id,
                     name:name,
                     description:description,
@@ -22,7 +22,7 @@ class FoodService{
         try{
             const {food_id,name,description,img_url} = foodData;
             await db.transaction(async(t)=>{
-                await t('menus').transacting(t).where('id','=',food_id).update({
+                await db('menus').transacting(t).where('id','=',food_id).update({
                     name:name,
                     description:description,
                     img_url:img_url
@@ -39,11 +39,24 @@ class FoodService{
         try{
             const {food_id} = foodData;
             await db.transaction(async (t)=>{
-            await t('menus').transacting(t).where('id','=',food_id).del()
+            await db('menus').transacting(t).where('id','=',food_id).del()
         })
         return "FOOD_DELETED"
         }catch(err){
             throw (err)
+        }
+    }
+
+    async getFood(foodData){
+        try{
+            let food =""
+            const {food_id} = foodData
+            await db.transaction(async (t)=>{
+                food = await db('menus').transacting(t).where('id','=',food_id)
+            })
+            return food
+        }catch(err){
+            throw(err)
         }
     }
 }
