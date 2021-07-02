@@ -9,8 +9,8 @@ app.post('/create-order',tokenVerifier,employeeVerifier, orderController.createO
 // edit order
 app.put('/edit-order',tokenVerifier,employeeVerifier, orderController.editOrder);
 // get all restaurant order
-app.get('/get-all-order',orderController.getAllOrder);
+app.get('/get-all-order',tokenVerifier,employeeVerifier,orderController.getAllOrder);
 // get all detailed order
-app.get('/get-all-detailed-order',orderController.getAllDetailedOrder)
+app.get('/get-all-detailed-order',tokenVerifier,employeeVerifier,orderController.getAllDetailedOrder);
 
 module.exports = app;
