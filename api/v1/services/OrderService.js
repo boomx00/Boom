@@ -83,6 +83,34 @@ class OrderService{
         }
     }
 
+    async getAllOrder(orderData){
+        try{
+            const {restaurant_id} = orderData   
+            let data = ""
+            await db.transaction(async(t)=>{
+                data = await db('orders').transacting(t).where('restaurant_id','=',restaurant_id)
+            })
+            return data
+        }catch(err){
+            throw(err)
+        }
+    }
+    async getAllDetailedOrder(orderData){
+        try{
+            const {restaurant_id} = orderData   
+            let data = ""
+            await db.transaction(async(t)=>{
+                data = await db('order_details').transacting(t).where('restaurant_id','=',restaurant_id)
+
+                data = {...data, additional_order: await db('new_orders').transacting(t).where('restaurant_id','=',restaurant_id)}
+                data = {...data, cancelled_orders: await db('cancel_orders').transacting(t).where('restaurant_id','=',restaurant_id)}
+
+            })
+            return data
+        }catch(err){
+            throw(err)
+        }
+    }
 }
 
 module.exports = new OrderService();

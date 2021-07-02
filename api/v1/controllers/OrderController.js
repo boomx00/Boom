@@ -41,6 +41,42 @@ class OrderController{
         }
     }
 
+    async getAllOrder(req,res,next){
+        try{
+            const result = await orderService.getAllOrder(req.body);
+            res.status(201).send({
+                'status':'GET_ORDERS',
+                'message':result
+            })
+        }catch(err){
+            throw(err)
+        }
+    }
+
+    async getAllDetailedOrder(req,res,next){
+        try{
+            const result = await orderService.getAllDetailedOrder(req.body)
+            res.status(201).send({
+                'status':'GET_DETAIL_ORDERS',
+                'message':result
+            })
+        }catch(err){
+            throw(err)
+        }
+    }
+
+    // async getSpecificOrder(req,res,next){
+    //     try{        
+    //         res.status(201).send({
+    //             'status':'GET_SPECIFIC_ORDERS',
+    //             'message':result
+    //         })
+    //         const result = await orderService.getSpecificOrder(req.body)
+    //     }catch(err){
+    //         throw(err)
+    //     }
+    // }
+
 }
 
 module.exports = new OrderController();
