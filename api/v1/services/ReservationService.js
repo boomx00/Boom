@@ -64,7 +64,37 @@ class ReservationService {
             
             return "RESERVATION_CANCELLED";
         }catch(err){
+            throw(err)
+        }
+    }
 
+    async getUserReservation(reservationData){
+        try{
+            const {user_id} = reservationData
+            let data = ""
+            await db.transaction(async(t)=>{
+                data = await db('reservations').transacting(t).where('user_id','=',user_id)
+
+            })
+
+            return data
+        }catch(err){
+            throw(err)
+        }
+    }
+
+    async getRestaurantReservation(reservationData){
+        try{
+            const {restaurant_id} = reservationData
+            let data = ""
+            await db.transaction(async(t)=>{
+                data = await db('reservations').transacting(t).where('restaurant_id','=',restaurant_id)
+
+            })
+
+            return data
+        }catch(err){
+            
         }
     }
 }

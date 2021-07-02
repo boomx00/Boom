@@ -70,6 +70,29 @@ class ReservationController {
         }
     }
 
+    async getUserReservation(req,res,next){
+        try{
+            const result = await ReservationService.getUserReservation(req.body);
+            res.status(201).send({
+                'status':'GET_USER_RESERVATION',
+                'message':result
+            })
+        }catch(err){
+            throw(err)
+        }
+    }
+async getRestaurantReservation(req,res,next){
+        try{
+            const result = await ReservationService.getRestaurantReservation(req.body);
+            res.status(201).send({
+                'status':'GET_RESTAURANT_RESERVATION',
+                'message':result
+            })
+        }catch(err){
+            throw(err)
+
+        }
+    }
     
 }
 module.exports = new ReservationController();
